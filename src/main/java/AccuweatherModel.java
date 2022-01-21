@@ -15,6 +15,7 @@ public class AccuweatherModel implements WeatherModel {   //наследую Wea
         private static final String AUTOCOMPLETE = "autocomplete";
 
     public void getWeather(String selectedCity, Period period) {// главный реализуемый метод котой будет получать погоду
+
     }
 
 }
