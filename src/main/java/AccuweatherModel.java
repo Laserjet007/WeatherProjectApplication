@@ -1,3 +1,11 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import java.io.IOException;
+
 public class AccuweatherModel implements WeatherModel {   //наследую WeatherModel
         //для того что бы получить погоду подключаюсь к серверу Weather (чтобы не передавать запросы строчками - делаю переменные константы к которов в дальнейшем буду обращаться)
     //http://dataservice.accuweather.com/forecasts/v1/daily/1day/  -адрес от куда беру погоду
@@ -12,10 +20,65 @@ public class AccuweatherModel implements WeatherModel {   //наследую Wea
         private static final String API_KAY_QUERY_PARAM = "apikey";
         private static final String LOCATIONS = "locations";
         private static final String CITIES = "cities";
-        private static final String AUTOCOMPLETE = "autocomplete";
+        private static final String AUTOCOMPLETE = "autocomplete";//      найти похожие города
 
-    public void getWeather(String selectedCity, Period period) {// главный реализуемый метод котой будет получать погоду
+        private static final OkHttpClient okkHttpClient = new OkHttpClient();//    в виде констант обьявил http клиент обжектмапер
+        private static final ObjectMapper objectMapper = new ObjectMapper();
 
+        @Override
+        public void getWeather(String selectedCity,Period period) throws IOException {//     главный реализуемый метод котой будет получать погоду
+            switch(period) {//        период может быть двух вариантов поэтому делаю свич (оператор ветвления) который будет проверять период
+                case NOW:   //реализую
+                    HttpUrl httpUrl = new HttpUrl.Builder()      //собираю запрос
+                            .scheme(PROTOKOL)
+                            .host(BASE_HOST)
+                            .addPathSegment(FORECASTS)
+                            .addPathSegment(VERSION)
+                            .addPathSegment(DAILY)
+                            .addPathSegment(ONE_DAY)
+                            .addPathSegment(detectCityKey(selectedCity))     //делаю вызов метода который будет определять айди города
+                            .addQueryParameter(API_KAY_QUERY_PARAM, API_KEY)
+                            .build();
+
+                        Request request = new Request.Builder()
+                                .url(httpUrl)
+                                .build();
+
+                        Response oneDayForecastResponse = okkHttpClient.newCall(request).execute();    // ответ
+                        String weatherResponse = oneDayForecastResponse.body().string();
+                        System.out.println(weatherResponse);
+
+                    break;
+
+                    case FIVE_DAYS:
+
+            break;
+
+            }
     }
+
+    private String detectCityKey(String selectedCity) {   //api запрос
+        //http://dataservice.accuweather.com/lacations/v1/cities/autocomplete/
+        HttpUrl httpUrl = new HttpUrl.Builder()      //собираю запрос
+                .scheme(PROTOKOL)
+                .host(BASE_HOST)
+                .addPathSegment(LOCATIONS)
+                .addPathSegment(VERSION)
+                .addPathSegment(CITIES)
+                .addPathSegment(AUTOCOMPLETE)
+                .addQueryParameter(API_KAY_QUERY_PARAM, API_KEY)
+                .addQueryParameter("q", selectedCity)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .get()
+                .addHeader("accept", "application/json")
+                .build();
+
+        Response
+
+        return null;
+        }
 
 }
