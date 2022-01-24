@@ -57,7 +57,7 @@ public class AccuweatherModel implements WeatherModel {   //наследую Wea
             }
     }
 
-    private String detectCityKey(String selectedCity) {   //api запрос
+    public String detectCityKey(String selectedCity) throws IOException {   //api запрос
         //http://dataservice.accuweather.com/lacations/v1/cities/autocomplete/
         HttpUrl httpUrl = new HttpUrl.Builder()      //собираю запрос
                 .scheme(PROTOKOL)
@@ -76,9 +76,10 @@ public class AccuweatherModel implements WeatherModel {   //наследую Wea
                 .addHeader("accept", "application/json")
                 .build();
 
-        Response
+        Response response = okkHttpClient.newCall(request).execute();
+        String responseCity = response.body().string();
 
-        return null;
+        return responseCity;
         }
 
 }
