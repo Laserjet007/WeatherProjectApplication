@@ -5,7 +5,8 @@ public class Main {
         AccuweatherModel accuweatherModel = new AccuweatherModel();
 
 
-        System.out.println(accuweatherModel.detectCityKey("Moscow"));
+        System.out.println(accuweatherModel.getWeather("Moscow", Period.NOW));
+
 
     }
 }

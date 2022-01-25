@@ -27,7 +27,8 @@ public class AccuweatherModel implements WeatherModel {   //наследую Wea
 
         @Override
         public void getWeather(String selectedCity,Period period) throws IOException {//     главный реализуемый метод котой будет получать погоду
-            switch(period) {//        период может быть двух вариантов поэтому делаю свич (оператор ветвления) который будет проверять период
+            String weatherResponse = null;
+            switch (period) {//        период может быть двух вариантов поэтому делаю свич (оператор ветвления) который будет проверять период
                 case NOW:   //реализую
                     HttpUrl httpUrl = new HttpUrl.Builder()      //собираю запрос
                             .scheme(PROTOKOL)
@@ -40,24 +41,25 @@ public class AccuweatherModel implements WeatherModel {   //наследую Wea
                             .addQueryParameter(API_KAY_QUERY_PARAM, API_KEY)
                             .build();
 
-                        Request request = new Request.Builder()
-                                .url(httpUrl)
-                                .build();
+                    Request request = new Request.Builder()
+                            .url(httpUrl)
+                            .build();
 
-                        Response oneDayForecastResponse = okkHttpClient.newCall(request).execute();    // ответ
-                        String weatherResponse = oneDayForecastResponse.body().string();
-                        System.out.println(weatherResponse);
+                    Response oneDayForecastResponse = okkHttpClient.newCall(request).execute();    // ответ
+                    weatherResponse = oneDayForecastResponse.body().string();
+                    System.out.println(weatherResponse);
+
+                break;
+
+                case FIVE_DAYS:
 
                     break;
 
-                    case FIVE_DAYS:
-
-            break;
 
             }
-    }
 
-    public String detectCityKey(String selectedCity) throws IOException {   //api запрос
+        }
+    private String detectCityKey(String selectedCity) throws IOException {   //api запрос
         //http://dataservice.accuweather.com/lacations/v1/cities/autocomplete/
         HttpUrl httpUrl = new HttpUrl.Builder()      //собираю запрос
                 .scheme(PROTOKOL)
@@ -77,9 +79,12 @@ public class AccuweatherModel implements WeatherModel {   //наследую Wea
                 .build();
 
         Response response = okkHttpClient.newCall(request).execute();
-        String responseCity = response.body().string();
+        String responseCity = response.body().string();  // responseCity - большая джейсонка из маина
 
-        return responseCity;
-        }
+         String cityKey = objectMapper.readTree(responseCity).get(0).at("/Key").asText(); // из обжектмапера вызываю метод readTree который пройдется по методам. get(0) - взять первый элемент массиваю.at("/Key") - пкредать кей и сказать что это текст
+
+        return cityKey;
+    }
 
 }
+
