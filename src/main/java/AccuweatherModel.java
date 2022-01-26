@@ -1,4 +1,4 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
+/*import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -88,3 +88,4 @@ public class AccuweatherModel implements WeatherModel {   //наследую Wea
 
 }
 
+*/
