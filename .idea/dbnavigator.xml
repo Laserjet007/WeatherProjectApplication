@@ -69,7 +69,7 @@ select  s.name, f.name
 from faculties f
 inner  join students s on s.faculty_id = f.id;
 
-select * from  students where name = 'Georgy';
+select * from  students where name = 'Andrey';
 
 create table weather (id integer primary key autoincrement , city text, localdate text, temperature real);]]></console>
     </connection>
