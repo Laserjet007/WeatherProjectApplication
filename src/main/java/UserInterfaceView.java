@@ -1,4 +1,4 @@
-/*import java.io.IOException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class UserInterfaceView {
@@ -26,4 +26,3 @@ public class UserInterfaceView {
         }
     }
 }
-*/
