@@ -1,5 +1,4 @@
 package lesson_8;
-
 //примеры что можно делать из джавы в таблице
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +12,7 @@ public class SqliteExamples {
         Connection connection = null;                                                        //подключаемся к sqllite
         try {
             Class.forName("org.sqlite.JDBC");                                       // к любой базе данных подключение идет таким образом:
-            connection = DriverManager.getConnection("jdbc:sqlite:database.db");  // конекшен создаем с помощью класса DriverManager
+            connection = DriverManager.getConnection("jdbc:sqlite:ismailovadatabase.db");  // конекшен создаем с помощью класса DriverManager
             Statement statement = connection.createStatement();                  //что бы прогонять строки из базы данных по отдельности нужно создать еще один обьект который будет привязан к основному запросу Statement
 
             statement.executeUpdate("update faculties set name = 'Тест1' where id = 1");  //заменить строчку IT  на  Test1
@@ -46,24 +45,24 @@ public class SqliteExamples {
             PreparedStatement preparedStatement = connection.prepareStatement(      // PreparedStatement - заготовка при выполнении программы в нее можно передавать значения
                     "insert into students (name, score, faculty_id) values (?, ?, ?)");
             connection.setAutoCommit(false);
-            preparedStatement.setString(1, "Олег");                 //заполняем переменные ( вопросительные знаки)
+            preparedStatement.setString(1, "Оноеон");                 //заполняем переменные ( вопросительные знаки)
             preparedStatement.setInt(2, 10);
             preparedStatement.setInt(3, 12);
-            preparedStatement.addBatch();
-            preparedStatement.setString(1, "Anton");
+            preparedStatement.addBatch();                             //первая часть закончилась
+            preparedStatement.setString(1, "нренон");
             preparedStatement.setInt(2, 10);
             preparedStatement.setInt(3, 12);
-            preparedStatement.addBatch();
-            preparedStatement.setString(1, "Anton");
+            preparedStatement.addBatch();                             //2 часть закончилась
+            preparedStatement.setString(1, "нононоевн");
             preparedStatement.setInt(2, 10);
             preparedStatement.setInt(3, 12);
-            preparedStatement.addBatch();
-            preparedStatement.executeBatch();
+            preparedStatement.addBatch();                              //3 часть закончилась
+            preparedStatement.executeBatch();                            //обработай всю пачку
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
+        } finally {                                          //закрываем блок
             try {
                 connection.close();
             } catch (SQLException throwables) {
@@ -72,3 +71,4 @@ public class SqliteExamples {
         }
     }
 }
+
