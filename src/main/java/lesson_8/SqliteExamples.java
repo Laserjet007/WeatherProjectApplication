@@ -12,7 +12,7 @@ public class SqliteExamples {
         Connection connection = null;                                                        //подключаемся к sqllite
         try {
             Class.forName("org.sqlite.JDBC");                                       // к любой базе данных подключение идет таким образом:
-            connection = DriverManager.getConnection("jdbc:sqlite:ismailovadatabase.db");  // конекшен создаем с помощью класса DriverManager
+            connection = DriverManager.getConnection("jdbc:sqlite:database.db");  // конекшен создаем с помощью класса DriverManager
             Statement statement = connection.createStatement();                  //что бы прогонять строки из базы данных по отдельности нужно создать еще один обьект который будет привязан к основному запросу Statement
 
             statement.executeUpdate("update faculties set name = 'Тест1' where id = 1");  //заменить строчку IT  на  Test1
